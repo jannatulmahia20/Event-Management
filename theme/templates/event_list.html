@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}Events{% endblock %}
+
+{% block content %}
+<h1 class="text-2xl font-bold mb-4">All Events</h1>
+<p>Total Participants: {{ total_participants }}</p>
+
+<form method="get" class="mb-4">
+  <input 
+    type="text" 
+    name="q" 
+    placeholder="Search by name or location"
+    value="{{ query|default:'' }}"
+    class="px-4 py-2 border rounded w-64"
+  >
+  <button 
+    type="submit" 
+    class="bg-blue-500 text-white px-4 py-2 rounded ml-2"
+  >
+    Search
+  </button>
+</form>
+
+<ul>
+  {% for event in events %}
+    <li class="bg-white p-4 rounded shadow mb-4">
+      <h2 class="text-xl font-semibold">{{ event.name }}</h2>
+      <p class="text-sm text-gray-500">{{ event.date }} at {{ event.time }}</p>
+      <p>Location: {{ event.location }}</p>
+      <p>Category: {{ event.category.name }}</p>
+      <p>Participants: {{ event.participant_count }}</p>
+    </li>
+  {% empty %}
+    <li>No events found.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

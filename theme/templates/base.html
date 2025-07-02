@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Event System{% endblock %}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-900">
+
+  <!-- Navbar -->
+  <nav class="bg-blue-600 p-4 text-white">
+    <div class="container mx-auto flex justify-between">
+      <a href="{% url 'event_list' %}" class="font-bold">Event System</a>
+      <div class="space-x-4">
+        <a href="{% url 'event_list' %}">Events</a>
+        <a href="{% url 'category_list' %}">Categories</a>
+        {# <a href="{% url 'participant_list' %}">Participants</a> #}
+
+        <a href="{% url 'dashboard' %}">Dashboard</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container mx-auto p-6">
+    {% block content %}
+    {% endblock %}
+  </main>
+
+</body>
+</html>

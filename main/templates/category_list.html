@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Categories{% endblock %}
+{% block content %}
+<h1 class="text-2xl font-bold mb-4">All Categories</h1>
+
+<ul>
+  {% for category in categories %}
+    <li class="bg-white p-4 my-2 rounded shadow">
+      <p class="font-semibold">{{ category.name }}</p>
+      <p>{{ category.description }}</p>
+    </li>
+  {% empty %}
+    <li>No categories available.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

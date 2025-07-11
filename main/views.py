@@ -34,7 +34,7 @@ def event_list(request):
             Q(name__icontains=query) | Q(location__icontains=query)
         )
 
-    events = events.annotate(participant_count=Count('participant'))
+    events = events.annotate(participant_count=Count('participant'))[:6]
     total_participants = Participant.objects.count()
 
     return render(request, 'event_list.html', {

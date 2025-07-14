@@ -1,8 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.utils.timezone import now
 from django.db.models import Count
 from .models import Event, Participant
 from django.db.models import Q
+from django.contrib.auth import login
+from .forms import CustomUserCreationForm
 
 def dashboard(request):
     today = now().date()
@@ -55,4 +57,16 @@ def event_detail(request, pk):
     return render(request, 'event_detail.html', {'event': event})
 
 
+def signup_view(request):
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.is_active = False  
+            user.save()
+            
+            return redirect('login')  # redirect to login
+    else:
+        form = CustomUserCreationForm()
+    return render(request, 'registration/signup.html', {'form': form})
 

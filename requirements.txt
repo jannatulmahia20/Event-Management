@@ -36,7 +36,6 @@ PyRect==0.2.0
 PyScreeze==1.0.1
 python-dateutil==2.9.0.post0
 pytweening==1.2.0
-pywin32==310
 pyzmq==27.0.0
 setuptools==75.2.0
 six==1.17.0

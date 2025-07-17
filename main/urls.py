@@ -15,6 +15,10 @@ urlpatterns = [
     path('admin-dashboard/', views.admin_dashboard, name='admin_dashboard'),
     path('create-event/', views.create_event, name='create_event'),
     path('participant-dashboard/', views.participant_dashboard, name='participant_dashboard'),
+    
+    path('events/<int:event_id>/rsvp/', views.rsvp_event, name='rsvp_event'),
+
+
 ]
     
 

@@ -6,6 +6,9 @@ from django.contrib.auth import login
 from .models import Event, Category
 from .forms import CustomUserCreationForm
 from .decorators import group_required
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
 
 def dashboard(request):
     today = now().date()
@@ -53,7 +56,7 @@ def category_list(request):
 
 
 def event_detail(request, pk):
-    event = get_object_or_404(Event.objects.prefetch_related('participants'), pk=pk)  # updated related_name
+    event = get_object_or_404(Event.objects.prefetch_related('participants'), pk=pk)  
     return render(request, 'event_detail.html', {'event': event})
 
 
@@ -92,4 +95,25 @@ def participant_dashboard(request):
 
 
 
+
+@login_required
+def rsvp_event(request, event_id):
+    event = get_object_or_404(Event, id=event_id)
+    user = request.user
+
+    if user in event.rsvps.all():
+        messages.info(request, "You have already RSVP'd for this event.")
+    else:
+        event.rsvps.add(user)
+        messages.success(request, "Successfully RSVP'd!")
+
+        send_mail(
+            subject="RSVP Confirmation",
+            message=f"Hi {user.first_name},\n\nYou've successfully RSVP'd for {event.name}.",
+            from_email="noreply@example.com",
+            recipient_list=[user.email],
+            fail_silently=True,
+        )
+
+    return redirect('event_detail', pk=event.id)
 

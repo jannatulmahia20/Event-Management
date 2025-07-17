@@ -1,16 +1,17 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.timezone import now
-from django.db.models import Count
-from .models import Event, Participant
-from django.db.models import Q
+from django.db.models import Count, Q
+from django.contrib.auth.models import User, Group
 from django.contrib.auth import login
+from .models import Event, Category
 from .forms import CustomUserCreationForm
+from .decorators import group_required
 
 def dashboard(request):
     today = now().date()
 
     total_events = Event.objects.count()
-    total_participants = Participant.objects.count()
+    total_participants = User.objects.count()  
     upcoming_events = Event.objects.filter(date__gt=today).count()
     past_events = Event.objects.filter(date__lt=today).count()
     events_today = Event.objects.filter(date=today)
@@ -29,31 +30,30 @@ def dashboard(request):
 def event_list(request):
     query = request.GET.get('q')
     
-    events = Event.objects.select_related('category').prefetch_related('participant_set')
+    events = Event.objects.select_related('category').prefetch_related('participants')  # updated related_name
 
     if query:
         events = events.filter(
             Q(name__icontains=query) | Q(location__icontains=query)
         )
 
-    events = events.annotate(participant_count=Count('participant'))[:6]
-    total_participants = Participant.objects.count()
+    events = events.annotate(participant_count=Count('participants'))[:6]  # updated field name
+    total_participants = User.objects.count()  # replaced Participant with User
 
     return render(request, 'event_list.html', {
         'events': events,
         'total_participants': total_participants,
         'query': query,  
     })
-from .models import Category
+
 
 def category_list(request):
     categories = Category.objects.all()
     return render(request, 'category_list.html', {'categories': categories})
 
-from django.shortcuts import get_object_or_404
 
 def event_detail(request, pk):
-    event = get_object_or_404(Event.objects.prefetch_related('participant_set'), pk=pk)
+    event = get_object_or_404(Event.objects.prefetch_related('participants'), pk=pk)  # updated related_name
     return render(request, 'event_detail.html', {'event': event})
 
 
@@ -64,9 +64,32 @@ def signup_view(request):
             user = form.save(commit=False)
             user.is_active = False  
             user.save()
-            
-            return redirect('login')  # redirect to login
+
+            participant_group = Group.objects.get(name='Participant')
+            user.groups.add(participant_group)
+
+            return redirect('login')  
     else:
         form = CustomUserCreationForm()
     return render(request, 'registration/signup.html', {'form': form})
+
+
+@group_required('Admin')
+def admin_dashboard(request):
+    
+    
+    return render(request, 'admin_dashboard.html')
+
+@group_required('Organizer')
+def create_event(request):
+    
+    return render(request, 'create_event.html')
+
+@group_required('Participant')
+def participant_dashboard(request):
+    
+    return render(request, 'participant_dashboard.html')
+
+
+
 

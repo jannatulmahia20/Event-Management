@@ -12,5 +12,9 @@ urlpatterns = [
     path('signup/', views.signup_view, name='signup'),
     path('login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
-    
+    path('admin-dashboard/', views.admin_dashboard, name='admin_dashboard'),
+    path('create-event/', views.create_event, name='create_event'),
+    path('participant-dashboard/', views.participant_dashboard, name='participant_dashboard'),
 ]
+    
+

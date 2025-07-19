@@ -17,8 +17,10 @@ urlpatterns = [
     path('participant-dashboard/', views.participant_dashboard, name='participant_dashboard'),
     
     path('events/<int:event_id>/rsvp/', views.rsvp_event, name='rsvp_event'),
-
-
+    path('activate/<uidb64>/<token>/', views.activate_account, name='activate'),
 ]
+
+
+
     
 

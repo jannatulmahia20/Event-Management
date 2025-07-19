@@ -1,3 +1,5 @@
+{% load group_filters %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,21 +11,29 @@
 
   <!-- Navbar -->
   <nav class="bg-blue-600 p-4 text-white">
-    <div class="container mx-auto flex justify-between">
-      <a href="{% url 'event_list' %}" class="font-bold">Event System</a>
-      <div class="space-x-4">
+    <div class="container mx-auto flex justify-between items-center">
+      <a href="{% url 'dashboard' %}" class="font-bold text-lg">Event System</a>
+      <div class="space-x-4 flex items-center">
         <a href="{% url 'event_list' %}">Events</a>
         <a href="{% url 'category_list' %}">Categories</a>
-        {# <a href="{% url 'participant_list' %}">Participants</a> #}
-
         <a href="{% url 'dashboard' %}">Dashboard</a>
+
+        {% if user|in_group:"Participant" %}
+  <a href="{% url 'participant_dashboard' %}" class="hover:underline">My Dashboard</a>
+{% endif %}
+{% if user|in_group:"Organizer" %}
+  <a href="{% url 'create_event' %}" class="hover:underline">Manage Events</a>
+{% endif %}
+{% if user|in_group:"Admin" %}
+  <a href="{% url 'admin_dashboard' %}" class="hover:underline">Admin Panel</a>
+{% endif %}
+      
       </div>
     </div>
   </nav>
 
   <main class="container mx-auto p-6">
-    {% block content %}
-    {% endblock %}
+    {% block content %}{% endblock %}
   </main>
 
 </body>

@@ -1,0 +1,14 @@
+[33m4cab3a1[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32massignment-2[m[33m)[m add rsvp button
+[33m3e75d27[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/assignment-2[m[33m, [m[1;32mmain[m[33m)[m nothing to change
+[33m848455c[m make many changes and admin-dashboard
+[33m7767e3a[m Add Tailwind CSS styling to Admin dashboard for better UI
+[33mdede647[m Implemented user signup, login, and logout functionality
+[33m2b594a2[m Remove pywin32 for Render deployment
+[33mb56acf5[m Your commit message here
+[33mcfc4f30[m upcoming event change
+[33m5cd58d7[m eventlist reduced
+[33m507c7b9[m eventlist changed
+[33m18cf683[m Limit event_list to show only 6 upcoming events with optional search
+[33m7f81459[m Remove Render-specific settings
+[33mb4ac4ba[m Add Render config and requirements
+[33m84b9541[m Add event_list.html with search form and fix template inheritance

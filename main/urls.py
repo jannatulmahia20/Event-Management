@@ -2,6 +2,11 @@ from django.urls import path
 from django.shortcuts import redirect
 from django.contrib.auth import views as auth_views
 from . import views
+from django.conf import settings
+from django.conf.urls.static import static
+from .views import create_event
+
+
 
 urlpatterns = [
     path('', lambda request: redirect('dashboard')),
@@ -18,7 +23,11 @@ urlpatterns = [
     
     path('events/<int:event_id>/rsvp/', views.rsvp_event, name='rsvp_event'),
     path('activate/<uidb64>/<token>/', views.activate_account, name='activate'),
+    path('create-event/', create_event, name='create_event'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
 

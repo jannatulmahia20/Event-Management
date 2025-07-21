@@ -15,7 +15,7 @@ class CustomUserCreationForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        # Add placeholders to inputs
+       
         self.fields['username'].widget.attrs.update({'placeholder': 'Enter username'})
         self.fields['email'].widget.attrs.update({'placeholder': 'Enter email'})
         self.fields['first_name'].widget.attrs.update({'placeholder': 'Enter first name'})
@@ -23,7 +23,14 @@ class CustomUserCreationForm(UserCreationForm):
         self.fields['password1'].widget.attrs.update({'placeholder': 'Enter password'})
         self.fields['password2'].widget.attrs.update({'placeholder': 'Confirm password'})
 
-        # Optional: add CSS class for Tailwind or styling if you want
+        
         for field_name, field in self.fields.items():
             field.widget.attrs.update({'class': 'w-full px-3 py-2 border rounded'})
 
+
+from .models import Event
+
+class EventForm(forms.ModelForm):
+    class Meta:
+        model = Event
+        fields = ['name', 'description', 'date', 'time', 'location', 'category', 'image']

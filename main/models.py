@@ -18,5 +18,12 @@ class Event(models.Model):
     participants = models.ManyToManyField(User, related_name='participated_events', blank=True)
     rsvps = models.ManyToManyField(User, related_name='rsvped_events', blank=True)
 
+   
+    image = models.ImageField(
+        upload_to='event_images/',
+        default='event_images/default_event.jpg',  
+        blank=True
+    )
+
     def __str__(self):
         return self.name

@@ -163,3 +163,16 @@ def activate_account(request, uidb64, token):
     else:
         messages.error(request, '❌ Activation link is invalid or expired.')
         return render(request, 'activation_invalid.html')
+
+
+from .forms import EventForm
+
+def create_event(request):
+    if request.method == 'POST':
+        form = EventForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('event_list')  # Redirect after successful event creation
+    else:
+        form = EventForm()
+    return render(request, 'create_event.html', {'form': form})

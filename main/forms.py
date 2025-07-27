@@ -23,7 +23,7 @@ class CustomUserCreationForm(UserCreationForm):
         self.fields['password1'].widget.attrs.update({'placeholder': 'Enter password'})
         self.fields['password2'].widget.attrs.update({'placeholder': 'Confirm password'})
 
-        # Optional: add CSS class for Tailwind or styling if you want
+    
         for field_name, field in self.fields.items():
             field.widget.attrs.update({'class': 'w-full px-3 py-2 border rounded'})
 

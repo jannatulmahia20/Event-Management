@@ -25,14 +25,14 @@ def dashboard(request):
 
 def event_list(request):
     query = request.GET.get('q')
-    events = Event.objects.select_related('category').prefetch_related('rsvps')  # adjust if your m2m field is 'rsvps'
+    events = Event.objects.select_related('category').prefetch_related('rsvps')  
 
     if query:
         events = events.filter(
             Q(name__icontains=query) | Q(location__icontains=query)
         )
 
-    events = events.annotate(participant_count=Count('rsvps'))[:6]  # adjust field name if needed
+    events = events.annotate(participant_count=Count('rsvps'))[:6]  
     total_participants = User.objects.count()
 
     return render(request, 'event_list.html', {
@@ -57,23 +57,24 @@ def signup_view(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
-            user.is_active = False
+            user.is_active = False 
             user.save()
 
+           
             participant_group = Group.objects.get(name='Participant')
             user.groups.add(participant_group)
 
-            # TODO: trigger activation email via signal
-
+           
             return redirect('login')
     else:
         form = CustomUserCreationForm()
-    return render(request, 'registration/signup.html', {'form': form})
+    return render(request, 'signup.html', {'form': form}) 
+
 
 
 @group_required('Admin')
 def admin_dashboard(request):
-    # Add admin dashboard context if needed
+
     return render(request, 'admin_dashboard.html')
 
 

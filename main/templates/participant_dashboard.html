@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}My RSVP'd Events{% endblock %}
+
+{% block content %}
+  <h2 class="text-2xl font-bold mb-4">My RSVP'd Events</h2>
+  {% if rsvped_events %}
+    <ul>
+      {% for event in rsvped_events %}
+        <li>
+          <strong>{{ event.name }}</strong> – {{ event.date }} at {{ event.time }}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>You haven't RSVP'd to any events yet.</p>
+  {% endif %}
+{% endblock %}

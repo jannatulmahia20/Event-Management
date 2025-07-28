@@ -30,8 +30,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'main',
     'tailwind',
-    'theme'
-    
+    'theme',
+    'accounts',
 ]
 
 TAILWIND_APP_NAME = 'theme'
@@ -127,4 +127,6 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 NPM_BIN_PATH = "D:/npm.cmd"
+AUTH_USER_MODEL = 'accounts.CustomUser'
+
 

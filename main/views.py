@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.timezone import now
 from django.db.models import Count, Q
-from django.contrib.auth.models import User, Group
+
 from django.contrib.auth import login
 from .models import Event, Category
 from .forms import CustomUserCreationForm
@@ -14,6 +14,10 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
+from django.contrib.auth import get_user_model
+from django.contrib.auth.models import Group
+User = get_user_model()
+
 
 def dashboard(request):
     today = now().date()
